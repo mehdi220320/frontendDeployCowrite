@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class TextService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://backenddeploycowriter.onrender.com/api';
 
   constructor(private http:HttpClient) {
   }

@@ -8,7 +8,7 @@ import {ChapterVersion} from '../models/ChapterVersion';
   providedIn: 'root'
 })
 export class ChapterService {
-  private apiUrl = 'http://localhost:3000/chapters';
+  private apiUrl = 'https://backenddeploycowriter.onrender.com/chapters';
 
   constructor(private http:HttpClient) {}
   getChapterById(id:any):Observable<Chapter>{

@@ -8,7 +8,7 @@ import {Room} from '../models/Room';
   providedIn: 'root'
 })
 export class RoomsService {
-  private apiUrl = 'http://localhost:3000/rooms';
+  private apiUrl = 'https://backenddeploycowriter.onrender.com/rooms';
 
   constructor(private http:HttpClient) {
   }

@@ -7,7 +7,7 @@ import {Book} from '../models/Book';
   providedIn: 'root'
 })
 export class BooksService {
-  private apiUrl = 'http://localhost:3000/books';
+  private apiUrl = 'https://backenddeploycowriter.onrender.com/books';
 
   constructor(private http:HttpClient) {
   }

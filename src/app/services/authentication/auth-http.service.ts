@@ -8,7 +8,7 @@ declare var google:any;
   providedIn: 'root'
 })
 export class AuthHttpService {
-  private apiUrl = 'http://localhost:3000/auth';
+  private apiUrl = 'https://backenddeploycowriter.onrender.com/auth';
   private tokenKey = 'auth_token';
   private roleKey = 'user_role';
   private userKey='user_id';
