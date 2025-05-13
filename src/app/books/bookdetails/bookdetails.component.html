@@ -1,0 +1,201 @@
+<app-default-page>
+  <div class="book-container">
+    <div class="book-header">
+      <img [src]="sanitizeImageUrl(book.coverImage)" alt="Book Cover" class="book-cover">
+      <div class="book-meta">
+        <h1 class="book-title">{{book.title}}</h1>
+        <span class="book-type">{{book.type}}</span>
+
+        <div class="book-status">
+          <span class="status-badge "   [ngClass]="book.completed ? 'status-completed' : 'status-in-progress'">
+          Status: {{book.completed | etat}}
+          </span>
+          <span class="status-badge">Total chapters: {{book.chapters.length}}</span>
+        </div>
+
+        <div class="book-author">
+          <div class="author-avatar">{{book.createdBy.name | nameInitials}}</div>
+          <span class="author-name">{{book.createdBy.name}}</span>
+        </div>
+
+        <p class="book-description">
+          {{book.description}}
+        </p>
+
+        <div class="book-actions">
+          <button class="btn btn-primary">Continue Reading</button>
+          <button class="btn btn-outline">Add Chapter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapters-section">
+
+      <div class="section-title">
+        <h4 class="nav-link" routerLinkActive="active" routerLink="about">About</h4>
+        <h4 class="nav-link" routerLinkActive="active" routerLink="chapters">Chapters</h4>
+        <h4 class="nav-link" routerLinkActive="active" routerLink="writers">Writers</h4>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+    <div class="comments-container">
+      <div class="comments-header mt-3">
+        <h2 class="comments-title">Discussion</h2>
+        <span class="comments-count">24 comments</span>
+      </div>
+
+      <form class="comment-form">
+        <div class="comment-avatar">JD</div>
+        <div class="comment-input-container">
+          <textarea class="comment-input" placeholder="Add to the discussion..."></textarea>
+          <div class="comment-actions">
+            <button type="button" class="btn btn-outline">Cancel</button>
+            <button type="submit" class="btn btn-primary">Comment</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="comment-list">
+        <!-- Main Comment -->
+        <div class="comment">
+          <div class="comment-avatar">TS</div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <div class="comment-author">
+                Taylor Smith
+                <span class="comment-badge">Author</span>
+              </div>
+              <span class="comment-time">2 hours ago</span>
+            </div>
+            <p class="comment-text">
+              I've just published the first draft of Chapter 3. Would love to get everyone's thoughts on the character development in this section. Does the protagonist's motivation come through clearly?
+            </p>
+            <div class="comment-footer">
+              <div class="reaction-buttons">
+                <button class="reaction-btn active">
+                  👍 <span>12</span>
+                </button>
+                <button class="reaction-btn">
+                  ❤️ <span>5</span>
+                </button>
+                <button class="reaction-btn">
+                  😮 <span>2</span>
+                </button>
+              </div>
+              <div class="comment-action">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Reply</span>
+              </div>
+            </div>
+
+            <!-- Replies -->
+            <div class="comment-replies">
+              <!-- Reply 1 -->
+              <div class="comment">
+                <div class="comment-avatar">MJ</div>
+                <div class="comment-content">
+                  <div class="comment-header">
+                    <div class="comment-author">Morgan Jones</div>
+                    <span class="comment-time">1 hour ago</span>
+                  </div>
+                  <p class="comment-text">
+                    The motivation is clear, but I wonder if we could add a brief flashback to reinforce why this goal is so important to her?
+                  </p>
+                  <div class="comment-footer">
+                    <div class="reaction-buttons">
+                      <button class="reaction-btn">
+                        👍 <span>3</span>
+                      </button>
+                    </div>
+                    <div class="comment-action">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                      </svg>
+                      <span>Reply</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reply 2 -->
+              <div class="comment">
+                <div class="comment-avatar">AR</div>
+                <div class="comment-content">
+                  <div class="comment-header">
+                    <div class="comment-author">Alex Rivera</div>
+                    <span class="comment-time">45 minutes ago</span>
+                  </div>
+                  <p class="comment-text">
+                    I agree with Morgan. Maybe we could show that childhood moment with her father that we discussed earlier?
+                  </p>
+                  <div class="comment-footer">
+                    <div class="reaction-buttons">
+                      <button class="reaction-btn active">
+                        👍 <span>5</span>
+                      </button>
+                    </div>
+                    <div class="comment-action">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                      </svg>
+                      <span>Reply</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reply Form (hidden by default) -->
+              <form class="comment-reply-form" style="display: none;">
+                <div class="reply-avatar">JD</div>
+                <div class="reply-input-container">
+                  <textarea class="reply-input" placeholder="Write your reply..."></textarea>
+                  <div class="reply-actions">
+                    <button type="button" class="btn btn-outline btn-sm">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Reply</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Second Main Comment -->
+        <div class="comment">
+          <div class="comment-avatar">KP</div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <div class="comment-author">Kim Patel</div>
+              <span class="comment-time">Yesterday</span>
+            </div>
+            <p class="comment-text">
+              I've noticed some inconsistencies in the timeline between Chapter 2 and Chapter 3. On page 42 of Chapter 2, we established the event happened in summer, but Chapter 3 mentions autumn. Should we adjust this?
+            </p>
+            <div class="comment-footer">
+              <div class="reaction-buttons">
+                <button class="reaction-btn">
+                  👍 <span>8</span>
+                </button>
+                <button class="reaction-btn">
+                  ❤️ <span>3</span>
+                </button>
+              </div>
+              <div class="comment-action">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Reply</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</app-default-page>

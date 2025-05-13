@@ -1,0 +1,72 @@
+<app-default-page>
+  <div class="container">
+    <header class="header">
+      <h1>Search Anything</h1>
+      <p>Find books and rooms in our community</p>
+    </header>
+
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input"
+               placeholder="Search for books or rooms..."
+               [(ngModel)]="searchTerm"
+               (input)="onSearchChange()">
+      </div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn" [class.active]="activeFilter === 'all'"
+              (click)="setFilter('all')">All</button>
+      <button class="filter-btn" [class.active]="activeFilter === 'books'"
+              (click)="setFilter('books')">Books</button>
+      <button class="filter-btn" [class.active]="activeFilter === 'rooms'"
+              (click)="setFilter('rooms')">Rooms</button>
+    </div>
+
+    <div class="results-container">
+      <div *ngIf="filteredItems.length === 0" class="no-results">
+        <p>No results found for "{{searchTerm}}"</p>
+      </div>
+
+      <div class="result-item" *ngFor="let item of displayedItems" (click)="navigateToItem(item)">
+        <div class="result-image">
+          <img [src]="getItemCoverImage(item)" [alt]="getItemTitle(item)" class="cover-img">
+          <div class="item-type-badge" [ngClass]="getItemType(item)">
+            {{ getItemType(item) === 'book' ? 'Book' : 'Room' }}
+          </div>
+        </div>
+        <div class="result-content">
+          <h3 class="result-title">
+            <i [class]="getItemType(item) === 'book' ? 'fas fa-book' : 'fas fa-door-open'"></i>
+            {{ getItemTitle(item) }}
+          </h3>
+          <p class="result-snippet">{{ item.description || '' | truncate:150 }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination" *ngIf="filteredItems.length > itemsPerPage">
+      <button class="page-btn" (click)="changePage(1)" [disabled]="currentPage === 1">
+        <i class="fas fa-angle-double-left"></i>
+      </button>
+      <button class="page-btn" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+        <i class="fas fa-angle-left"></i>
+      </button>
+
+      <button *ngFor="let page of pages"
+              class="page-btn"
+              [class.active]="page === currentPage"
+              (click)="changePage(page)">
+        {{ page }}
+      </button>
+
+      <button class="page-btn" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+        <i class="fas fa-angle-right"></i>
+      </button>
+      <button class="page-btn" (click)="changePage(totalPages)" [disabled]="currentPage === totalPages">
+        <i class="fas fa-angle-double-right"></i>
+      </button>
+    </div>
+  </div>
+</app-default-page>

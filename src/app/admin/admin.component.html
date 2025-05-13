@@ -1,0 +1,61 @@
+<div class="dashboard-container">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3><i class="fas fa-cog"></i> AdminPanel</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li >
+          <a routerLinkActive="active" routerLink="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/admin/users"><i class="fas fa-users"></i> Users</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/admin/rooms"><i class="fas fa-box-open"></i> Rooms</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/admin/books"><i class="fas fa-file-invoice-dollar"></i> Books</a>
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-chart-pie"></i> Add admin</a>
+        </li>
+        <li>
+          <a (click)="logout()" style="cursor:pointer"><i class="fas fa-cog"></i> Logout</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <img src="https://ui-avatars.com/api/?name=Admin+User" alt="Admin" class="profile-img">
+        <div class="user-info">
+          <span class="user-name">Admin User</span>
+          <span class="user-role">Administrator</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search dashboard...">
+      </div>
+      <div class="topbar-actions">
+        <button class="notification-btn">
+          <i class="fas fa-bell"></i>
+          <span class="badge">5</span>
+        </button>
+        <button class="user-btn">
+          <i class="fas fa-user-circle"></i>
+        </button>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

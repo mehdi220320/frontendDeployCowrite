@@ -1,0 +1,97 @@
+<div class="form-container">
+  <div class="form-header">
+    <h1 class="form-title">Create New Book</h1>
+    <p class="form-subtitle">Start your collaborative writing journey</p>
+  </div>
+
+  <form #bookForm="ngForm" (ngSubmit)="onRegister()">
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    <div class="form-grid">
+      <!-- Left Column -->
+      <div class="form-group full-width">
+        <label for="bookTitle" class="form-label">Book Title</label>
+        <input
+          type="text"
+          id="bookTitle"
+          class="form-control"
+          required
+          placeholder="Enter book title"
+          [(ngModel)]="book.title"
+          name="title"
+          #titleInput="ngModel">
+        <div *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)" class="error-message">
+          Book title is required
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="bookType" class="form-label">Genre/Type</label>
+        <select
+          id="bookType"
+          class="form-control form-select"
+          required
+          [(ngModel)]="book.type"
+          name="type"
+          #typeInput="ngModel">
+          <option value="" disabled selected>Select a genre</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Science Fiction">Science Fiction</option>
+          <option value="Mystery">Mystery</option>
+          <option value="Romance">Romance</option>
+          <option value="Thriller">Thriller</option>
+          <option value="Non-Fiction">Non-Fiction</option>
+          <option value="Other">Other</option>
+        </select>
+        <div *ngIf="typeInput.invalid && (typeInput.dirty || typeInput.touched)" class="error-message">
+          Please select a genre
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Thumbnail Image*</label>
+        <div class="file-upload">
+          <div *ngIf="!imagePreview; else previewBlock" class="file-upload-btn" (click)="fileInput.click()">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+            <p>Drag & drop the cover image here or click to browse</p>
+            <span class="file-upload-label">Recommended size: 800x1200px (JPG, PNG)</span>
+          </div>
+          <ng-template #previewBlock>
+            <p>Drag & drop to change the cover image here or click to browse</p>
+
+            <div class="thumbnail-preview-container">
+              <img [src]="imagePreview" class="thumbnail-preview" alt="Thumbnail preview">
+            </div>
+          </ng-template>
+
+          <input #fileInput type="file" id="thumbnail" (change)="onFileSelected($event)" accept="image/*" class="file-upload-input" required>
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="bookDescription" class="form-label">Description</label>
+        <textarea
+          id="bookDescription"
+          class="form-control"
+          placeholder="Briefly describe your book..."
+          [(ngModel)]="book.description"
+          name="description"></textarea>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="bookContent" class="form-label">Write your First Chapter</label>
+        <angular-editor
+          [placeholder]="'Enter text here...'"
+          [config]="config"
+          [(ngModel)]="book.HtmlContent"
+          name="HtmlContent"></angular-editor>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="bookForm.invalid">Create Book</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,11 @@
+<ng-container *ngIf="!url.startsWith('/admin'); else adminLayout">
+  <app-navbar></app-navbar>
+  <router-outlet></router-outlet>
+  <footer class="footer">
+    Made with ❤️ by Med Mehdi/Jawher
+  </footer>
+</ng-container>
+
+<ng-template #adminLayout>
+  <app-admin></app-admin>
+</ng-template>

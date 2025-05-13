@@ -1,0 +1,98 @@
+<app-default-page>
+  <div class="modern-literary-container">
+    <!-- Featured Book Section -->
+    <section class="featured-section" *ngIf="suggestedBook" style="width: 1000px">
+      <div class="featured-book" [routerLink]="['/book', suggestedBook._id]">
+        <img [src]="getItemCoverImage(suggestedBook)" alt="{{suggestedBook.title}}" class="featured-cover">
+        <div class="featured-details">
+          <div class="featured-badge">{{suggestedBook.completed | etat}}</div>
+          <h2>{{suggestedBook.title}}</h2>
+          <div class="featured-meta">
+            <span class="featured-type">{{suggestedBook.type}}</span>
+            <span class="featured-rating">
+              <i class="fas fa-star"></i> {{getRandomRating()}}
+            </span>
+            <span class="featured-chapters">
+              <i class="fas fa-book-open"></i> {{suggestedBook.chapters!.length || 0}} chapters
+            </span>
+          </div>
+          <p class="featured-description">{{suggestedBook.description || 'An exciting read you won\'t want to put down'}}</p>
+          <div class="featured-footer">
+            <button class="featured-btn">Start Reading</button>
+            <div class="featured-author">
+              <i class="fas fa-pen"></i> By {{suggestedBook.createdBy.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Books Section -->
+    <section class="books-section">
+      <div class="section-header">
+        <h2>Popular Books</h2>
+        <button class="see-more" (click)="showMoreBooks()" *ngIf="books.length > displayedBooks.length">
+          See More <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <div class="books-grid">
+        <div *ngFor="let book of displayedBooks" class="book-card" [routerLink]="['/book', book._id]">
+          <div class="book-badge" *ngIf="book.completed">Completed</div>
+          <img [src]="getItemCoverImage(book)" alt="{{book.title}}" class="book-cover">
+
+          <div class="book-details">
+            <h3>{{book.title}}</h3>
+            <div class="book-meta">
+              <span class="book-type">{{book.type}}</span>
+              <span class="book-rating">
+                <i class="fas fa-star"></i> {{getRandomRating()}}
+              </span>
+            </div>
+
+            <div class="book-footer">
+              <button class="view-btn">View</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section class="rooms-section">
+      <div class="section-header">
+        <h2>Active Reading Rooms</h2>
+        <button class="see-more" (click)="showMoreRooms()" *ngIf="rooms.length > displayedRooms.length">
+          See More <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <div class="rooms-grid">
+        <div *ngFor="let room of displayedRooms" class="room-card" [routerLink]="['/room', room._id]">
+          <img [src]="getItemCoverImage(room)" alt="{{room.name}}" class="room-cover">
+
+          <div class="room-details">
+            <h3>{{room.name}}</h3>
+            <div class="room-meta">
+              <span class="room-members">
+                <i class="fas fa-users"></i> {{room.users.length}}
+              </span>
+              <span class="room-visibility">{{room.visibility}}</span>
+            </div>
+
+            <p class="room-description" *ngIf="room.description">
+              {{(room.description | truncate:50) || 'Join the discussion!'}}
+            </p>
+
+            <div class="room-footer">
+              <div class="creator-info">
+                <i class="fas fa-crown"></i> {{room.createdBy.name}}
+              </div>
+              <button class="join-btn">Join</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</app-default-page>

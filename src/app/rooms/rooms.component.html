@@ -1,0 +1,113 @@
+<app-default-page>
+
+  <main class=" flex-1 py-10  px-5 sm:px-10 ">
+    <section >
+      <div class="modern-form-container">
+        <div class="form-wrapper">
+          <div class="form-header">
+            <h2>Join a Room</h2>
+            <p class="subtitle">Enter the code to access your shared space</p>
+          </div>
+
+          <form class="modern-form" (ngSubmit)="joinRoom(); $event.preventDefault()">
+            <div class="form-group">
+              <div class="input-wrapper">
+                <span class="input-prefix">#</span>
+                <input type="text" id="roomCode" name="roomCode" class="modern-input"
+                       placeholder="Room_Code" autocomplete="off" spellcheck="false" [(ngModel)]="code">
+                <div class="input-border"></div>
+              </div>
+              <label for="roomCode" class="input-label">Room Code</label>
+            </div>
+
+            <button type="submit" class="modern-button">
+              <span>Join Room</span>
+              <svg class="arrow-icon" viewBox="0 0 24 24">
+                <path d="M4 12h16m-7-7l7 7-7 7"></path>
+              </svg>
+            </button>
+
+            <div class="divider">
+              <span>or</span>
+            </div>
+
+            <button type="button" class="modern-button create-button" routerLink="/rooms/create">
+              <span>Create New Room</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+
+
+    </section>
+    <section class="mt-9">
+      <div class="flex items-center justify-between">
+        <span class="font-semibold text-gray-700 text-base dark:text-white">My Rooms</span>
+        <div class="flex items-center space-x-2 fill-gray-500">
+          <!-- Left Arrow -->
+          <svg
+            [ngStyle]="{'opacity': canMoveLeft() ? 1 : 0.5,'cursor': canMoveLeft() ? 'pointer' : 'not-allowed'}" (click)="moveLeft()"
+            class="h-7 w-7 rounded-full border p-1 hover:border-red-600 hover:fill-red-600 dark:fill-white dark:hover:fill-red-600"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13.293 6.293L7.58 12l5.7 5.7 1.41-1.42 -4.3-4.3 4.29-4.293Z"></path>
+          </svg>
+
+          <!-- Right Arrow -->
+          <svg
+            [ngStyle]="{'opacity': canMoveRight() ? 1 : 0.5,'cursor': canMoveRight() ? 'pointer' : 'not-allowed'}"
+            (click)="moveRight()"
+            class="h-7 w-7 rounded-full border p-1 hover:border-red-600 hover:fill-red-600 dark:fill-white dark:hover:fill-red-600"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M10.7 17.707l5.7-5.71 -5.71-5.707L9.27 7.7l4.29 4.293 -4.3 4.29Z"></path>
+          </svg>
+       </div>
+      </div>
+
+      <!-- Rooms Grid - now using visibleRooms -->
+      <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-5">
+        <div *ngFor="let room of visibleRooms" class="relative rounded-xl overflow-hidden" >
+          <img [src]="sanitizeImageUrl(room.coverImage)" class="object-cover w-full h-full -z-10" alt="Room">
+          <div class="absolute top-0 h-full w-full bg-gradient-to-t from-black/50 p-3 flex flex-col justify-between">
+            <a routerLink="/room/{{room._id}}" data-tooltip="Access" class="p-2.5 bg-gray-800/80 rounded-lg text-white self-end hover:bg-red-600/80">
+              <i class="fa-solid fa-right-to-bracket"></i>
+            </a>
+
+            <div class="self-center flex flex-col items-center space-y-2">
+              <span class="capitalize text-white font-medium drop-shadow-md">{{room.name}}</span>
+              <span class="text-gray-300 text-xs">{{room.createdBy.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-9">
+      <div class="flex items-center justify-between">
+        <span class="font-semibold text-gray-700 text-base dark:text-white">Public Rooms </span>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2  sm:grid-cols-4 gap-x-5 gap-y-5">
+        <div *ngFor="let room of rooms" class="relative rounded-xl overflow-hidden ">
+          <img [src]="sanitizeImageUrl(room.coverImage)" class="object-cover w-full h-full -z-10" alt="Room" >
+          <div class="absolute top-0 h-full w-full bg-gradient-to-t from-black/50 p-3 flex flex-col justify-between">
+            <a routerLink="/room/{{room._id}}"  data-tooltip="Join" class="p-2.5 bg-gray-800/80 rounded-lg text-white self-end hover:bg-red-600/80">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+              </svg>
+            </a>
+
+            <div class="self-center flex flex-col items-center space-y-2">
+              <span class="capitalize text-white font-medium drop-shadow-md">{{room.name}}</span>
+              <span class="text-gray-300 text-xs">{{room.createdBy.name}}</span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+</app-default-page>

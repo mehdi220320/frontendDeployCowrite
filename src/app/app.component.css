@@ -1,0 +1,40 @@
+:root {
+  background: radial-gradient(ellipse, hsl(220, 15%, 86%) 10%, hsl(220, 15%, 90%));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.lightbox {
+  aspect-ratio: 16 / 9;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background: radial-gradient(ellipse, hsl(220, 15%, 100%) 10%, hsl(220, 15%, 90%));
+
+  margin-top: 2rem;
+  transform: scale(0.65);
+  transform-origin: top;
+  width: 100%;
+
+  perspective: 70vw;
+  position: relative;
+}
+
+.lightbox::after {
+  content: "";
+  display: block;
+  aspect-ratio: inherit;
+  width: 100%;
+  background: radial-gradient(ellipse, hsl(220, 15%, 100%) 40%, hsl(220, 15%, 90%));
+  transform: rotateX(90deg) scaleY(-1);
+  transform-origin: bottom;
+
+  position: absolute;
+  bottom: 0;
+}

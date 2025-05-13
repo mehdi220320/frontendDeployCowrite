@@ -1,0 +1,75 @@
+<nav class="navbar">
+  <div class="logo"><img height="50" width="150" src="assets/log.png"></div>
+
+  <!-- Public Routes (unchanged) -->
+  <div class="nav-links" *ngIf="!authService.isLoggedIn()">
+    <a routerLink="home" routerLinkActive="active">Home</a>
+    <a routerLink="login" routerLinkActive="active">Login</a>
+    <a routerLink="signup" routerLinkActive="active">Signup</a>
+  </div>
+  <button routerLink="contactUs" class="contact-btn"*ngIf="!authService.isLoggedIn()">Contact us</button>
+
+  <!-- Enhanced Private Routes -->
+  <div class="nav-links private-nav"  *ngIf=" authService.isLoggedIn()">
+    <a routerLink="acceuil" routerLinkActive="active" class="nav-item">
+      <i class="fas fa-home nav-icon"></i>
+      <span class="nav-text">Home</span>
+    </a>
+    <a routerLink="rooms" routerLinkActive="active" class="nav-item">
+      <i class="fas fa-door-open nav-icon"></i>
+      <span class="nav-text">Rooms</span>
+    </a>
+    <a routerLink="book" routerLinkActive="active" class="nav-item">
+      <i class="fas fa-book nav-icon"></i>
+      <span class="nav-text">Books</span>
+    </a>
+    <a routerLink="search" routerLinkActive="active" class="nav-item">
+      <i class="fas fa-search nav-icon"></i>
+      <span class="nav-text">Search</span>
+    </a>
+    <a *ngIf="isAdmin()" routerLink="admin" routerLinkActive="active">
+      <i class="fas fa-user nav-icon"></i>
+      <span class="nav-text">Admin</span>
+    </a>
+  </div>
+  <button *ngIf="authService.isLoggedIn()"
+          (click)="logout()"
+          class="contact-btn">
+    Log out
+  </button>
+  <!-- Enhanced User Profile Section -->
+<!--  <div class="user-profile" *ngIf="!isPublicRoute()">-->
+<!--    <div class="profile-dropdown">-->
+<!--      <div class="profile-toggle">-->
+<!--        <div class="user-avatar">-->
+<!--          <span>MM</span>-->
+<!--        </div>-->
+<!--        <div class="user-details">-->
+<!--          <div class="user-name">Mohamed Mehdi Ben Gamra</div>-->
+<!--          <div class="user-status">-->
+<!--            <span class="status-indicator"></span>-->
+<!--            <span>Online</span>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <i class="fas fa-chevron-down dropdown-icon"></i>-->
+<!--      </div>-->
+<!--      <div class="dropdown-menu">-->
+<!--        <a href="#" class="dropdown-item">-->
+<!--          <i class="fas fa-user"></i> Profile-->
+<!--        </a>-->
+<!--        <a href="#" class="dropdown-item">-->
+<!--          <i class="fas fa-cog"></i> Settings-->
+<!--        </a>-->
+<!--        <a href="#" class="dropdown-item">-->
+<!--          <i class="fas fa-sign-out-alt"></i> Logout-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <button class="mobile-menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>

@@ -1,0 +1,246 @@
+<app-default-page>
+
+  <main  class=" flex-1 py-10  px-5 sm:px-10 ">
+    <section  class="mt-3 mb-3" >
+      <div class="container" style="min-width: 1100px">
+
+        <div  class="header">
+          <div class="room-header">
+            <img [src]="sanitizeImageUrl(room.coverImage)" alt="Book Cover" class="book-cover">
+            <div class="room-info">
+              <h1 class="room-title">{{room.name}}</h1>
+              <p class="book-description">
+                {{room.description ||''| truncate:50}}
+              </p>
+              <ng-container *ngIf="room">
+                <button *ngIf="!isUserInRoom() && !isUserPending()"
+                        class="btn btn-primary"
+                        (click)="follow()">
+                  Follow
+                </button>
+
+                <div *ngIf="isUserPending()" class="text-muted">
+                  Waiting for admin approval
+                </div>
+                <div *ngIf="isUserInRoom()"  style="font-weight: bold;color: #1a4173;" >
+                  Welcome To The Room
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <app-create-book  style="width: 100% ;margin-left: 130px" *ngIf="books.length===0 && isUserInRoom()"></app-create-book>
+
+        <main  *ngIf="isUserInRoom() &&	 books.length>0" >
+          <div  class="books-view">
+            <div class="content-header" style="  display: flex;
+                                                  justify-content: space-between;
+                                                  align-items: center;">
+              <h1 class="header-title">Writers Workspace</h1>
+              <div class="header-actions">
+                <button class="btn btn-outline">
+                  <i class="fas fa-filter"></i>
+                  <span>Filter</span>
+                </button>
+                <button class="btn btn-primary">
+                  <i class="fas fa-plus"></i>
+                  <span>New Book</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="books-grid">
+              <div class="book-card" *ngFor="let book of books" (click)="getBook(book._id)">
+                <div class="book-cover">
+                  <img [src]="sanitizeImageUrl2(book.coverImage)" alt="Book Cover" class="book-cover">
+                </div>
+                <div class="book-info">
+                  <h3>{{book.title}}</h3>
+                  <div class="book-meta">
+                    <span>chapters: {{book.chapters.length}}</span>
+                    <span>•</span>
+                    <span>last update {{book.updatedAt | date}}</span>
+                  </div>
+                  <p class="book-description">
+                    {{book.description}}
+                  </p>
+                </div>
+                <div class="book-footer">
+                  <span class="book-status">{{book.completed}}</span>
+                  <div class="book-actions">
+                    <button class="action-btn">
+                      <i class="fas fa-share-alt"></i>
+                    </button>
+                    <button class="action-btn">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div *ngIf="bookSelected" class="chapter-list" >
+            <h2>{{bookSelected.title}}: Chapters</h2>
+            <div class="chapter-item" *ngFor="let chapter of bookSelected.chapters" [routerLink]="'/room/' + roomId + '/chapter/' + chapter._id">
+              <div class="chapter-title">Chapter {{chapter.chapterNumber}}</div>
+              <div class="chapter-meta">
+                <!--                <span class="chapter-author">By Alex Johnson</span>-->
+                <span class="chapter-date">Last edit at: {{chapter.updatedAt | date}}</span>
+              </div>
+            </div>
+
+            <!--            <div *ngIf="!checklastChapter(bookSelected.chapters[bookSelected.chapters.length-1]._id)" disabled class="not-add-chapter" >You can't add New Chapter until the last one is confirmed</div>-->
+            <div  class="add-chapter" [routerLink]="'/room/'+roomId+'/'+bookSelected._id+'/addChapter'">Add New Chapter</div>
+          </div>
+
+          <!-- Creative Comment Section -->
+          <div class="comments-container">
+            <div class="comments-header">
+              <h2>Room Discussions</h2>
+              <div class="comment-filters">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Chapter 1</button>
+                <button class="filter-btn">Chapter 2</button>
+                <button class="filter-btn">Chapter 3</button>
+              </div>
+            </div>
+
+            <div class="comment-thread">
+              <div class="comment-card">
+                <div class="comment-avatar">AJ</div>
+                <div class="comment-bubble">
+                  <div class="comment-meta">
+                    <span class="comment-author">Alex Johnson</span>
+                    <span class="comment-time">2 days ago • Chapter 1</span>
+                  </div>
+                  <div class="comment-text">
+                    Just published the first draft of Chapter 1. Looking for feedback on the historical timeline section - does it flow well?
+                  </div>
+                  <div class="comment-actions">
+                    <div class="comment-action comment-like">Like (3)</div>
+                    <div class="comment-action comment-reply">Reply</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="comment-replies">
+                <div class="comment-card">
+                  <div class="comment-avatar">SR</div>
+                  <div class="comment-bubble">
+                    <div class="comment-meta">
+                      <span class="comment-author">Sam Rivera</span>
+                      <span class="comment-time">1 day ago</span>
+                    </div>
+                    <div class="comment-text">
+                      The timeline looks great! Maybe we could add more about the early internet pioneers? I can help with that section.
+                    </div>
+                    <div class="comment-actions">
+                      <div class="comment-action comment-like">Like (1)</div>
+                      <div class="comment-action comment-reply">Reply</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="comment-card">
+                  <div class="comment-avatar">MP</div>
+                  <div class="comment-bubble">
+                    <div class="comment-meta">
+                      <span class="comment-author">Morgan Park</span>
+                      <span class="comment-time">20 hours ago</span>
+                    </div>
+                    <div class="comment-text">
+                      I love the historical perspective here. I'll draft some additions about ARPANET and the first network nodes.
+                    </div>
+                    <div class="comment-actions">
+                      <div class="comment-action comment-like">Like (2)</div>
+                      <div class="comment-action comment-reply">Reply</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="comment-thread">
+              <div class="comment-card">
+                <div class="comment-avatar">TS</div>
+                <div class="comment-bubble">
+                  <div class="comment-meta">
+                    <span class="comment-author">Taylor Smith</span>
+                    <span class="comment-time">1 day ago • Chapter 3</span>
+                  </div>
+                  <div class="comment-text">
+                    I'm working on the AI consciousness section. Would love input on these philosophical questions: Can code achieve true consciousness, or is it just sophisticated mimicry?
+                  </div>
+                  <div class="comment-actions">
+                    <div class="comment-action comment-like">Like (5)</div>
+                    <div class="comment-action comment-reply">Reply</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="add-comment">
+              <div class="add-comment-avatar">+</div>
+              <div class="comment-form">
+                <textarea class="comment-input" placeholder="Join the discussion..."></textarea>
+                <button class="comment-submit">Post Comment</button>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <aside *ngIf="isUserInRoom() && books.length>0" class="user-list">
+          <div style="position: sticky;top: 100px;">
+            <h2>Collaborators ({{room.users.length}})</h2>
+
+            <div *ngFor="let user of room.users" class="user-item">
+              <div class="user-avatar">{{user.name | nameInitials  }}</div>
+              <span>{{user.name}}</span>
+            </div>
+            <br>
+            <div *ngIf="room.createdBy._id===userid">
+              <h2>Invites ({{room.pendingMembers.length}})</h2>
+              <div *ngFor="let user of room.pendingMembers" class="user-item " style="justify-content: space-between">
+                <div class="user-avatar">{{user.name | nameInitials  }}</div>
+                <span>{{user.name}}</span>
+                <button class="copy-button" style="background: darkblue" (click)="acceptInvitation(user._id)">
+                  Accept
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="invite-section">
+              <h3>Invite Collaborators</h3>
+
+              <div class="invite-input-group">
+                <input type="email" class="invite-input" placeholder="Enter email address">
+                <button class="invite-button">Send</button>
+              </div>
+
+              <div class="invite-link-group">
+                <label class="invite-link-label">Or share this code:</label>
+                <div class="invite-link-container">
+                  <span class="invite-link">{{ room.code }}</span>
+                  <button class="copy-button" (click)="copyInviteLink()">
+                    {{ isCopied ? 'Copied!' : 'Copy' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </aside>
+        <div *ngIf="!isUserInRoom()">
+          <div class="version-card " style="margin-left:170px;justify-content: center;align-items: center ;min-width: 100%" >You need to follow this room First</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+</app-default-page>

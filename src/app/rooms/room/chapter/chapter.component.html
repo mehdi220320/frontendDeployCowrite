@@ -1,0 +1,209 @@
+<app-default-page>
+
+  <main  class=" flex-1 py-10  px-5 sm:px-10 ">
+    <section  class="mt-3 mb-3" style="width: 1200px;" >
+      <div class="container">
+        <div class="header">
+          <div class="room-header">
+            <img [src]="sanitizeImageUrl(room.coverImage)" alt="Book Cover" class="book-cover">
+            <div class="room-info">
+              <h1 class="room-title">{{room.name}}</h1>
+              <p class="book-description">
+                {{room.description}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <main >
+
+        <div class="chapter-container">
+          <div class="chapter-header">
+            <div class="chapter-meta">
+              <div style="display: flex;
+                          gap: 30px;
+                          justify-items: center;">
+                <span class="chapter-badge">Chapter {{chapter.chapterNumber}} </span>
+                <h1 class="chapter-title">{{chapter.title}}</h1>
+              </div>
+              <p class="book-title">From <em>{{chapter.book.title}}</em></p>
+            </div>
+
+            <div class="deadline-card">
+              <div class="deadline-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
+              <div class="deadline-content">
+                <span class="deadline-label">Deadline</span>
+                <span class="deadline-date">{{chapter.chapterDeadline | date}}</span>
+                <div class="countdown-timer" [class.urgent]="isDeadlineClose">
+                  <span class="countdown-days">{{countdown.days}}d</span>
+                  <span class="countdown-hours">{{countdown.hours}}h</span>
+                  <span class="countdown-minutes">{{countdown.minutes}}m</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chapter-version">
+          <div class="version-header">
+            <h3>Chapter Versions </h3>
+            <div class="version-controls" *ngIf="versions.length>0">
+              <button class="version-nav prev" (click)="prevVersion()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                </svg>
+              </button>
+              <span class="version-count">Version {{currentVersion}} of {{totalVersions}}</span>
+              <button class="version-nav next" (click)="nextVersion()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="version-slider">
+            <div class="version-cards" [style.transform]="'translateX(' + translateValue + '%)'">
+              <div class="version-card" *ngFor="let version of versions; let i = index" [class.active]="i === currentVersionIndex">
+                <div class="version-meta">
+                  <div class="version-author">
+                    <div class="author-avatar">{{version.createdBy.name | nameInitials}}</div>
+                    <span>{{version.createdBy.name}}</span>
+                  </div>
+                  <span class="version-date">{{version.createdAt | date}}</span>
+                </div>
+                <div class="version-content">
+                  <div [innerHTML]="getSafeHtml(version.content)"></div>
+
+                </div>
+                <div class="version-actions">
+<!--                  <button class="btn-view">View Full Version</button>-->
+                  <div class="version-votes">
+                    <button class="vote-btn upvote" (click)="voteVersion(version._id)" [disabled]="isUserLike(version._id)" [class.active]="isUserLike(version._id)">
+                      <i class="fa fa-thumbs-up"></i>
+                      <span>{{version.votes}}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="version-card " style="justify-content: center;align-items: center ;" *ngIf="versions.length===0">No version is available</div>
+            </div>
+          </div>
+
+          <div class="version-dots">
+            <button *ngFor="let dot of dots; let i = index"
+                    [class.active]="i === currentVersionIndex"
+                    (click)="goToVersion(i)"></button>
+          </div>
+        </div>
+
+        <app-editor *ngIf="!chapter.confirmedVersion"></app-editor>
+        <div class="version-card " style="justify-content: center;align-items: center ;" *ngIf="countdown.minutes===0">Time's up! While you can't submit new versions now, why not review existing ones?</div>
+
+        <div class="comments-container ">
+          <div class="comments-header">
+            <h2>Room Discussions</h2>
+            <div class="comment-filters">
+              <button class="filter-btn active">All</button>
+              <button class="filter-btn">Chapter 1</button>
+              <button class="filter-btn">Chapter 2</button>
+              <button class="filter-btn">Chapter 3</button>
+            </div>
+          </div>
+
+          <div class="comment-thread">
+            <div class="comment-card">
+              <div class="comment-avatar">AJ</div>
+              <div class="comment-bubble">
+                <div class="comment-meta">
+                  <span class="comment-author">Alex Johnson</span>
+                  <span class="comment-time">2 days ago • Chapter 1</span>
+                </div>
+                <div class="comment-text">
+                  Just published the first draft of Chapter 1. Looking for feedback on the historical timeline section - does it flow well?
+                </div>
+                <div class="comment-actions">
+                  <div class="comment-action comment-like">Like (3)</div>
+                  <div class="comment-action comment-reply">Reply</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="comment-replies">
+              <div class="comment-card">
+                <div class="comment-avatar">SR</div>
+                <div class="comment-bubble">
+                  <div class="comment-meta">
+                    <span class="comment-author">Sam Rivera</span>
+                    <span class="comment-time">1 day ago</span>
+                  </div>
+                  <div class="comment-text">
+                    The timeline looks great! Maybe we could add more about the early internet pioneers? I can help with that section.
+                  </div>
+                  <div class="comment-actions">
+                    <div class="comment-action comment-like">Like (1)</div>
+                    <div class="comment-action comment-reply">Reply</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="comment-card">
+                <div class="comment-avatar">MP</div>
+                <div class="comment-bubble">
+                  <div class="comment-meta">
+                    <span class="comment-author">Morgan Park</span>
+                    <span class="comment-time">20 hours ago</span>
+                  </div>
+                  <div class="comment-text">
+                    I love the historical perspective here. I'll draft some additions about ARPANET and the first network nodes.
+                  </div>
+                  <div class="comment-actions">
+                    <div class="comment-action comment-like">Like (2)</div>
+                    <div class="comment-action comment-reply">Reply</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="comment-thread">
+            <div class="comment-card">
+              <div class="comment-avatar">TS</div>
+              <div class="comment-bubble">
+                <div class="comment-meta">
+                  <span class="comment-author">Taylor Smith</span>
+                  <span class="comment-time">1 day ago • Chapter 3</span>
+                </div>
+                <div class="comment-text">
+                  I'm working on the AI consciousness section. Would love input on these philosophical questions: Can code achieve true consciousness, or is it just sophisticated mimicry?
+                </div>
+                <div class="comment-actions">
+                  <div class="comment-action comment-like">Like (5)</div>
+                  <div class="comment-action comment-reply">Reply</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="add-comment">
+            <div class="add-comment-avatar">+</div>
+            <div class="comment-form">
+              <textarea class="comment-input" placeholder="Join the discussion..."></textarea>
+              <button class="comment-submit">Post Comment</button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+    </section>
+
+  </main>
+
+
+</app-default-page>

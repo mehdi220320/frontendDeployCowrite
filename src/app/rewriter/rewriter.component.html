@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>Text Corrector</h1>
+
+  <div class="status" [class.error]="status === 'Error'">
+    {{ status }}
+    <span *ngIf="error">- {{ error }}</span>
+  </div>
+
+  <textarea [(ngModel)]="originalText"
+            placeholder="Enter text to correct..."
+            [disabled]="status !== 'Ready'"></textarea>
+
+  <div class="buttons">
+    <button (click)="correctText()"
+            [disabled]="status !== 'Ready' || !originalText">
+      {{ status === 'Correcting...' ? 'Working...' : 'Correct Text' }}
+    </button>
+    <button (click)="reset()">Reset</button>
+  </div>
+
+  <div class="result" *ngIf="correctedText">
+    <h3>Corrected Text:</h3>
+    <p>{{ correctedText }}</p>
+  </div>
+</div>

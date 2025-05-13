@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="header">
+    <h1><i class="fas fa-book"></i> Book Management</h1>
+    <div class="search-add">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search books..." [(ngModel)]="searchTerm" (input)="filterBooks()">
+      </div>
+      <button class="btn btn-primary" routerLink="/books/add">
+        <i class="fas fa-plus"></i> Add Book
+      </button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th>Cover</th>
+        <th>Title</th>
+        <th>Type</th>
+<!--        <th>Room</th>-->
+        <th>Created By</th>
+        <th>Chapters</th>
+        <th>Created At</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let book of paginatedBooks">
+        <td>
+          <div class="book-cover">
+            <img *ngIf="book.coverImage?.path" [src]="book.coverImage.path" alt="Book cover" class="avatar">
+            <img *ngIf="!book.coverImage?.path" src="assets/img/img.png" alt="Book cover" class="avatar">
+
+          </div>
+        </td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.type }}</td>
+<!--        <td>{{ book.room }}</td>-->
+        <td>{{ book.createdBy.name }}</td>
+        <td>{{ book.chapters.length }}</td>
+        <td>{{ formatDate(book.createdAt) }}</td>
+        <td>
+            <span class="status" [ngClass]="{
+              'status-active': book.completed,
+              'status-inactive': !book.completed
+            }">
+              {{ book.completed ? 'Completed' : 'In Progress' }}
+            </span>
+        </td>
+        <td>
+          <div class="action-btns">
+            <button class="btn btn-sm btn-view" [routerLink]="['/books', book._id]">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-sm btn-edit" [routerLink]="['/books/edit', book._id]">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-delete" (click)="deleteBook(book._id)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="filteredBooks.length === 0">
+        <td colspan="9" class="no-results">No books found</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <li class="page-item">
+      <a href="#" class="page-link" (click)="changePage(currentPage - 1); $event.preventDefault()">Previous</a>
+    </li>
+    <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index">
+      <a href="#" class="page-link"
+         [class.active]="currentPage === i + 1"
+         (click)="changePage(i + 1); $event.preventDefault()">{{ i + 1 }}</a>
+    </li>
+    <li class="page-item">
+      <a href="#" class="page-link" (click)="changePage(currentPage + 1); $event.preventDefault()">Next</a>
+    </li>
+  </div>
+</div>

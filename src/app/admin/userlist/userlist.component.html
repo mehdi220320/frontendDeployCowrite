@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="header">
+    <h1><i class="fas fa-users"></i> User Management</h1>
+    <div class="search-add">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text"
+               placeholder="Search users..."
+               [(ngModel)]="searchTerm"
+               (input)="onSearch()">
+      </div>
+      <button class="btn btn-primary"><i class="fas fa-plus"></i> Add User</button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th>User</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of paginatedUsers">
+        <td>
+          <div class="user-info">
+            <span>{{ user.name }}</span>
+          </div>
+        </td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td><span class="status" [class]="getStatusClass(user)">{{ getStatus(user) }}</span></td>
+        <td>
+          <div class="action-btns">
+            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="filteredUsers.length === 0">
+        <td colspan="6" class="no-results">No users found</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <li class="page-item">
+      <a href="#" class="page-link" (click)="changePage(currentPage - 1); $event.preventDefault()">Previous</a>
+    </li>
+    <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index">
+      <a href="#" class="page-link"
+         [class.active]="currentPage === i + 1"
+         (click)="changePage(i + 1); $event.preventDefault()">{{ i + 1 }}</a>
+    </li>
+    <li class="page-item">
+      <a href="#" class="page-link" (click)="changePage(currentPage + 1); $event.preventDefault()">Next</a>
+    </li>
+  </div>
+</div>
