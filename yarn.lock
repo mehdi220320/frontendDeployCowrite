@@ -18,6 +18,14 @@
     "@angular-devkit/core" "19.2.1"
     rxjs "7.8.1"
 
+"@angular-devkit/architect@0.1902.11":
+  version "0.1902.11"
+  resolved "https://registry.npmjs.org/@angular-devkit/architect/-/architect-0.1902.11.tgz"
+  integrity sha512-Zz/4ySZ4i8WXU4U4WwUGQm8wjwAyrMo5kjFt7O2SGmHQx7L/hChvcMLCGVkpHr27Xdsmrl//OXfbjkPgb6DFBg==
+  dependencies:
+    "@angular-devkit/core" "19.2.11"
+    rxjs "7.8.1"
+
 "@angular-devkit/build-angular@^19.1.6":
   version "19.2.1"
   resolved "https://registry.npmjs.org/@angular-devkit/build-angular/-/build-angular-19.2.1.tgz"
@@ -101,12 +109,24 @@
     rxjs "7.8.1"
     source-map "0.7.4"
 
-"@angular-devkit/schematics@19.2.1":
-  version "19.2.1"
-  resolved "https://registry.npmjs.org/@angular-devkit/schematics/-/schematics-19.2.1.tgz"
-  integrity sha512-IVWXGROEACyV+YH/s9xvpbLVblK55GvqldZRCMvpevtXMJy1aubOPOB+8TkHOVBlmAteW/5I7ouDbQWVZjNfww==
+"@angular-devkit/core@19.2.11":
+  version "19.2.11"
+  resolved "https://registry.npmjs.org/@angular-devkit/core/-/core-19.2.11.tgz"
+  integrity sha512-hXacCEbLbVo/PYPHBhaU2LThFm0Q1tIGTsWSkQjtsQpW8e4xqgSnFIWaHdsPiiGryxtdtvNE2cr9qa0ddAJOnA==
   dependencies:
-    "@angular-devkit/core" "19.2.1"
+    ajv "8.17.1"
+    ajv-formats "3.0.1"
+    jsonc-parser "3.3.1"
+    picomatch "4.0.2"
+    rxjs "7.8.1"
+    source-map "0.7.4"
+
+"@angular-devkit/schematics@19.2.11":
+  version "19.2.11"
+  resolved "https://registry.npmjs.org/@angular-devkit/schematics/-/schematics-19.2.11.tgz"
+  integrity sha512-R5g18xBhMHRtti5kDd2tlEMMxfRi8gQZ6LoT5xbox3w2kGSt7NtkSa3SUoF7Ns7JfPLrKsTQbVLFd5AggBLbHQ==
+  dependencies:
+    "@angular-devkit/core" "19.2.11"
     jsonc-parser "3.3.1"
     magic-string "0.30.17"
     ora "5.4.1"
@@ -153,17 +173,17 @@
   optionalDependencies:
     lmdb "3.2.6"
 
-"@angular/cli@^19.1.6":
-  version "19.2.1"
-  resolved "https://registry.npmjs.org/@angular/cli/-/cli-19.2.1.tgz"
-  integrity sha512-0ioZmuaapsbndXhpoUAew1uA4RFhNEa16kKgYPw5XlouaS2SLLrzC4nLW9DPJv6XrkOsOebf+OpyyHazzdFoSw==
+"@angular/cli@^19.2.11":
+  version "19.2.11"
+  resolved "https://registry.npmjs.org/@angular/cli/-/cli-19.2.11.tgz"
+  integrity sha512-U+Sapv4S1v+LEywyCImhQf12c6vmhuJhBS58nBxWDUVn1kmYzdUCAKNDDgMQqWQmg/Dek1YI88XYDToUvEdD1g==
   dependencies:
-    "@angular-devkit/architect" "0.1902.1"
-    "@angular-devkit/core" "19.2.1"
-    "@angular-devkit/schematics" "19.2.1"
+    "@angular-devkit/architect" "0.1902.11"
+    "@angular-devkit/core" "19.2.11"
+    "@angular-devkit/schematics" "19.2.11"
     "@inquirer/prompts" "7.3.2"
     "@listr2/prompt-adapter-inquirer" "2.0.18"
-    "@schematics/angular" "19.2.1"
+    "@schematics/angular" "19.2.11"
     "@yarnpkg/lockfile" "1.1.0"
     ini "5.0.0"
     jsonc-parser "3.3.1"
@@ -1872,13 +1892,13 @@
   resolved "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.34.8.tgz"
   integrity sha512-U0FaE5O1BCpZSeE6gBl3c5ObhePQSfk9vDRToMmTkbhCOgW4jqvtS5LGyQ76L1fH8sM0keRp4uDTsbjiUyjk0g==
 
-"@schematics/angular@19.2.1":
-  version "19.2.1"
-  resolved "https://registry.npmjs.org/@schematics/angular/-/angular-19.2.1.tgz"
-  integrity sha512-QYYGVR2n+YtLzqo0IsQq7OUnBMeP6OjyuVlGdjsAnSDCKQ9kUcqZDwjxxh5NUj25R4vvu+5aVaa6W6iTxfHadQ==
+"@schematics/angular@19.2.11":
+  version "19.2.11"
+  resolved "https://registry.npmjs.org/@schematics/angular/-/angular-19.2.11.tgz"
+  integrity sha512-Xkqur8OJrrfR5CeMXj2FqdiqGp//w9cZ7q9RBfRr3lZgW5QUiZw7iJNQHUIDNsCBKK5yFpPIDckpdVx8jLGclg==
   dependencies:
-    "@angular-devkit/core" "19.2.1"
-    "@angular-devkit/schematics" "19.2.1"
+    "@angular-devkit/core" "19.2.11"
+    "@angular-devkit/schematics" "19.2.11"
     jsonc-parser "3.3.1"
 
 "@sigstore/bundle@^3.1.0":
