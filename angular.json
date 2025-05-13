@@ -33,7 +33,7 @@
             "assets": [
               "src/assets",
               "src/assets/dictionaries",
-
+              "src/_redirects",
               {
                 "glob": "**/*",
                 "input": "node_modules/@kolkov/angular-editor/assets/icons",
